@@ -1,0 +1,7 @@
+name 'dhcp_pxe'
+maintainer 'J. Morgan Lieberthal'
+maintainer_email 'j.morgan.lieberthal@gmail.com'
+license 'mit'
+description 'Installs/Configures dhcp_pxe'
+long_description 'Installs/Configures dhcp_pxe'
+version '0.1.0'

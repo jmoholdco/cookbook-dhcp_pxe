@@ -1,0 +1,8 @@
+default menu.c32
+prompt 0
+timeout 30
+MENU TITLE jmorgan.org PXE Menu
+LABEL centos7
+MENU LABEL CentOS 7 x86_64
+KERNEL /netboot/vmlinuz
+APPEND initrd=/netboot/initrd.img inst.repo=http://192.168.1.19/centos/7/os/x86_64

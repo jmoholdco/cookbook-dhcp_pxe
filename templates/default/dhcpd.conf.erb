@@ -1,0 +1,45 @@
+# dhcpd.conf
+#
+# Sample configuration file for ISC dhcpd
+#
+
+# option definitions common to all supported networks...
+option domain-name "<%= node['dhcp']['domain'] %>";
+option domain-name-servers <%= node['dhcp']['name_servers'].join(', ') %>;
+
+default-lease-time <%= node['dhcp']['lease_time']['default'] %>;
+max-lease-time <%= node['dhcp']['lease_time']['max'] %>;
+
+# Use this to enble / disable dynamic dns updates globally.
+<% if node['dhcp']['ddns']  %>
+ddns-update-style <%= node['dhcp']['ddns']['update_style'] %>;
+<% end %>
+
+# If this DHCP server is the official DHCP server for the local
+# network, the authoritative directive should be uncommented.
+<% if node['dhcp']['authoritative'] %>
+authoritative;
+<% end %>
+
+<% if node['tftp'] %>
+allow booting;
+allow bootp;
+allow unknown-clients;
+<% end %>
+
+# A slightly different configuration for an internal subnet.
+subnet <%= node['dhcp']['subnet'] %> netmask <%= node['dhcp']['netmask'] %> {
+  range <%= node['dhcp']['range']['low'] %> <%= node['dhcp']['range']['hi'] %>;
+  option domain-name-servers <%= node['dhcp']['name_servers'].join(', ') %>;
+  option domain-name "<%= node['dhcp']['domain'] %>";
+  option routers <%= node['dhcp']['routers'] %>;
+  option broadcast-address <%= node['dhcp']['broadcast'] %>;
+  default-lease-time <%= node['dhcp']['lease_time']['default'] %>;
+  max-lease-time <%= node['dhcp']['lease_time']['max'] %>;
+  <% if node['tftp'] %>
+  next-server <%= node['tftp']['server'] %>;
+  filename "<%= node['tftp']['filename'] %>";
+  <% end %>
+}
+
+<%# vim: set ts=8 sw=2 tw=0 ft=eruby.conf et :%>

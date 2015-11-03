@@ -1,0 +1,24 @@
+---
+driver:
+  name: vagrant
+  network:
+    - ["private_network", { ip: "192.168.2.15" }]
+
+provisioner:
+  name: chef_zero
+
+platforms:
+  - name: centos-7.1
+
+suites:
+  - name: default
+    run_list:
+      - recipe[dhcp_pxe::default]
+    attributes:
+      dhcp:
+        subnet: "192.168.2.0"
+        routers: "192.168.2.1"
+        broadcast: "192.168.2.255"
+        range:
+          low: "192.168.2.30"
+          hi: "192.168.2.245"
